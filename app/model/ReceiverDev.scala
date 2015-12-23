@@ -5,8 +5,12 @@ import akka.actor.{ActorRef, Props, Actor}
 /**
   * Created by darioalessandro on 12/21/15.
   */
+
+case class Device(uuid: String)
+
 object ReceiverDev {
   def props(out: ActorRef) = Props(new ReceiverDev(out))
+  case class FoundDevices(Device : List[Device])
 }
 
 
@@ -19,7 +23,6 @@ class ReceiverDev(out: ActorRef) extends Actor {
 
   override def postStop() = {
     println("post stop")
-    //someResource.close()
   }
 
   override def preStart() = {
