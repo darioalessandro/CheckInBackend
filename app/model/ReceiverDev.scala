@@ -18,7 +18,8 @@ class ReceiverDev(out: ActorRef) extends Actor {
 
   def receive = {
     case msg: String =>
-      out ! ("I received your message: " + msg)
+      println(s"got message $msg")
+      //out ! ("I received your message: " + msg)
   }
 
   override def postStop() = {
