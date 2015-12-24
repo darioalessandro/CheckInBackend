@@ -9,12 +9,12 @@ import akka.actor.{ActorRef, Props, Actor}
 case class Device(uuid: String)
 
 object ReceiverDev {
-  def props(out: ActorRef) = Props(new ReceiverDev(out))
+  def props(out: ActorRef, receiverId : String) = Props(new ReceiverDev(out, receiverId))
   case class FoundDevices(Device : List[Device])
 }
 
 
-class ReceiverDev(out: ActorRef) extends Actor {
+class ReceiverDev(out: ActorRef, receiverId : String) extends Actor {
 
   def receive = {
     case msg: String =>
@@ -27,7 +27,7 @@ class ReceiverDev(out: ActorRef) extends Actor {
   }
 
   override def preStart() = {
-    println("pre start")
+    println(s"pre start $receiverId")
   }
 
 }
