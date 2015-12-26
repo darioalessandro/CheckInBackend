@@ -1,8 +1,10 @@
 package model
 
+import java.text.SimpleDateFormat
+
 import akka.actor.{Props, ActorRef, Actor}
 import model.Monitor.ReceiversListChanged
-import play.api.libs.json.{Json, JsValue}
+import play.api.libs.json.{Writes, Json, JsValue}
 
 import scala.util.Try
 
@@ -16,11 +18,24 @@ object ClientMonitor {
 
 class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
 
-  implicit var deviceParser = Json.format[Device]
-
   override def preStart = {
     println("Client monitor prestart")
     monitor ! new Monitor.SubscribeForReceiverUpdates()
+  }
+
+  val df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+
+  implicit val deviceWriter = new Writes[Device] {
+    def writes(c: Device): JsValue = {
+      val cJson = Json.obj(
+        "RSSI" -> c.RSSI,
+        "identifier" -> c.identifier,
+        "timestamp" -> df.format(c.timeIntervalSince1970),
+        "name" -> c.name
+      )
+      cJson
+    }
   }
 
   override def receive = {

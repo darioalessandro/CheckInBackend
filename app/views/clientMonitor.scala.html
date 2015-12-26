@@ -26,14 +26,15 @@
 
                 ws.onmessage = function (evt)
                 {
-                    var received_msg = evt.data;
-                    document.body.innerHTML = received_msg
+                    //TODO: This should be a json, not a string
+                    var data = JSON.parse(evt.data);
+                    document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
                 };
 
                 ws.onclose = function()
                 {
                     // websocket is closed.
-                    alert("Connection is closed...");
+                    //alert("Connection is closed...");
                 };
             }
 
@@ -45,14 +46,12 @@
         }
 
         window.onload = function(e){
-            alert("prestart");
             WebSocketTest();
         }
     </script>
 
 </head>
 <body>
-
-
+    <pre id="json"></pre>
 </body>
 </html>
