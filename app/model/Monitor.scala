@@ -1,6 +1,6 @@
 package model
 
-import akka.actor.{DeadLetter, ActorRef, Actor}
+import akka.actor.{Terminated, DeadLetter, ActorRef, Actor}
 import model.Monitor.{SubscribeForReceiverUpdates, ReceiversListChanged}
 import model.ReceiverDev.FoundDevices
 
@@ -25,6 +25,10 @@ class Monitor extends Actor {
       //TODO: build history
      println(receivers.mkString)
      broadcastToMonitors(receivers)
+
+    case d : Terminated =>
+      this.context.unwatch(d.getActor)
+      this.clientMonitors = this.clientMonitors.filter(_ != d.getActor)
 
     case s : SubscribeForReceiverUpdates =>
       this.context.watch(sender())
