@@ -26,8 +26,8 @@ class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
   val df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
 
-  implicit val deviceWriter = new Writes[Device] {
-    def writes(c: Device): JsValue = {
+  implicit val deviceWriter = new Writes[Beacon.Update] {
+    def writes(c: Beacon.Update): JsValue = {
       val cJson = Json.obj(
         "RSSI" -> c.RSSI,
         "identifier" -> c.identifier,
