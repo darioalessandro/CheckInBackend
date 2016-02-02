@@ -9,7 +9,7 @@ import play.api.libs.json.{Writes, Json, JsValue}
 import scala.util.Try
 
 /**
-  * Created by darioalessandro on 12/25/15.
+  * This Actor communicates the backend with the WebSocket from the monitor website
   */
 
 object ClientMonitor {

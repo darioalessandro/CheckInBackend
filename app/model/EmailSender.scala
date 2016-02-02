@@ -7,14 +7,14 @@ import courier.{Text, Envelope, Mailer}
 import courier._, Defaults._
 import model.EmailSender.Email
 
+/**
+  * Responsible for sending all the email notifications.
+  */
 
 object EmailSender {
   case class Email(title : String, recipients:List[String], body: String)
 }
 
-/**
-  * Created by darioalessandro on 1/18/16.
-  */
 class EmailSender extends Actor {
 
   val mailer = Mailer("smtp.gmail.com", 587)

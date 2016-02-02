@@ -4,23 +4,23 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 import akka.actor.{ActorRef, Props, Actor}
-import model.ReceiverDev.FoundDevices
+import model.Receiver.FoundDevices
 import play.api.libs.json._
 
 import scala.util.{Success, Try}
 
 /**
-  * Created by darioalessandro on 12/21/15.
+  * Communicates the backend and the Receivers.
   */
 
 
-object ReceiverDev {
-  def props(out: ActorRef, receiverId : String, monitor : ActorRef) = Props(new ReceiverDev(out, receiverId, monitor))
+object Receiver {
+  def props(out: ActorRef, receiverId : String, monitor : ActorRef) = Props(new Receiver(out, receiverId, monitor))
   case class FoundDevices(devices : Array[Beacon.Update], receiverId : String)
 }
 
 
-class ReceiverDev(out: ActorRef, receiverId : String, monitor : ActorRef) extends Actor {
+class Receiver(out: ActorRef, receiverId : String, monitor : ActorRef) extends Actor {
 
   def receive = {
     case msg: JsValue =>

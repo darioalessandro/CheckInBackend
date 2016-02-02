@@ -8,7 +8,9 @@ import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
-  * Created by darioalessandro on 1/19/16.
+  * This is the Device that the child carries.
+  *
+  * The device is responsible for tracking the connection status and send the appropiate notifications to the email server.
   */
 
 object Beacon {

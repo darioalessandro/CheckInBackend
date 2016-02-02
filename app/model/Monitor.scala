@@ -2,10 +2,10 @@ package model
 
 import akka.actor._
 import model.Monitor.{SubscribeForReceiverUpdates, ReceiversListChanged}
-import model.ReceiverDev.FoundDevices
+import model.Receiver.FoundDevices
 
 /**
-  * Created by darioalessandro on 12/25/15.
+  * Receives all the updates from the Receivers and routes them through the system.
   */
 
 object Monitor {

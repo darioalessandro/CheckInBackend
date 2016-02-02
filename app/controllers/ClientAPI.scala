@@ -8,10 +8,15 @@ import play.api.libs.json._
 import play.api.routing.JavaScriptReverseRouter
 import scala.concurrent.ExecutionContext.Implicits.global
 import javax.inject.{Inject, Singleton}
-import model.{ClientMonitor, ReceiverDev}
+import model.{ClientMonitor, Receiver}
 import play.api.Play.current
 
 import scala.concurrent.Future
+
+/*
+API between receiver and backend.
+Also between monitor website and the backend.
+ */
 
 @Singleton
 class ClientAPI  @Inject() (system: ActorSystem)  extends Controller {
@@ -25,12 +30,11 @@ class ClientAPI  @Inject() (system: ActorSystem)  extends Controller {
       case None =>
         Left(Forbidden)
       case Some(id) =>
-        Right(ReceiverDev.props(_, id, monitor))
+        Right(Receiver.props(_, id, monitor))
     })
   }
 
   def monitorSocket = WebSocket.tryAcceptWithActor[JsValue, JsValue] { request =>
-
     Future.successful(
         Right(ClientMonitor.props(_, monitor))
     )
