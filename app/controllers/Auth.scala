@@ -1,5 +1,6 @@
 package controllers
 
+import play.api.Play
 import play.api.mvc.{Action, Controller}
 
 /**
@@ -7,13 +8,15 @@ import play.api.mvc.{Action, Controller}
   */
 class Auth extends Controller {
 
+  val authServerUrl = Play.application.configuration.getString("auth.url").get
+
   def callback = Action { request =>
     println(request.queryString.mkString)
-    Redirect("/auth/welcome")
+    Redirect(controllers.routes.Auth.welcome().url)
   }
 
   def login = Action {
-    Redirect(url = "http://localhost:9000", queryString = Map("client_id" -> Seq("1"), "scope" -> Seq("/")))
+    Redirect(url = authServerUrl, queryString = Map("client_id" -> Seq("1"), "scope" -> Seq("/")))
   }
 
   def welcome = Action {
