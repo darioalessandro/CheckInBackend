@@ -1,0 +1,25 @@
+@()(implicit lang: Lang)
+
+<div role="main" class="container">
+  <div class="row">
+    <table class="table table-bordered table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>
+            ReceiverId
+          </th>
+          <th >
+            beacons
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, value) in receivers track by $index">
+          <td>{{key}}</td>
+          <td>{{value}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

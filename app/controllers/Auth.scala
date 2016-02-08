@@ -2,6 +2,7 @@ package controllers
 
 import play.api.Play
 import play.api.mvc.{Action, Controller}
+import play.api.Play.current
 
 /**
   * Created by darioalessandro on 2/1/16.

@@ -1,0 +1,29 @@
+
+<div class="container">
+    <div class="row">
+        <h2 class="form-signin-heading col-xs-8 col-xs-offset-2" ng-hide="isLoginWorking()">Please sign in</h2>
+    </div>
+    <div class="row">
+        <h2 class="form-signin-heading col-xs-8 col-xs-offset-2" ng-show="isLoginWorking()">Connecting...</h2>
+    </div>
+
+    <div class="row">
+        @views.html.spinner("isLoginWorking()")
+    </div>
+
+  <form class="form-signin" role="form" ng-hide="isLoginWorking()">
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="text" ng-model="username" class="form-control" placeholder="Email address" required autofocus name="username">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" ng-model="password" class="form-control" placeholder="Password" required name="password">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit(username,password)">Sign in</button>
+  </form>
+    <div class="row" ng-hide="isLoginWorking()">
+        @views.html.errorTemplate("errors.login")
+    </div>
+</div>

@@ -44,9 +44,9 @@ class ClientAPI  @Inject() (system: ActorSystem)  extends Controller {
     Ok(views.html.clientMonitor())
   }
 
-  def javascriptRoutes = Action { implicit request =>
+  def jsRoutes = Action { implicit request =>
     Ok(
-      JavaScriptReverseRouter("jsRoutes")(
+      JavaScriptReverseRouter("ClientAPIRouter")(
         routes.javascript.ClientAPI.monitorSocket
       )
     ).as("text/javascript")

@@ -3,10 +3,20 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.ClientAPI.monitorUI
+GET     /                           controllers.ClientUI.index
 GET     /monitorSocket              controllers.ClientAPI.monitorSocket
 GET     /receiverSocket             controllers.ClientAPI.socket
-GET     /javascriptRoutes           controllers.ClientAPI.javascriptRoutes
+
+GET     /auth/ui                    controllers.LoginUI.login
+POST     /auth/svc                   controllers.LoginAPI.login
+
+GET     /ui/jsRoutes                controllers.LoginUI.jsRoutes
+GET     /api/jsRoutes               controllers.LoginAPI.jsRoutes
+GET     /ui/monitor/jsRoutes        controllers.ClientUI.jsRoutes
+GET     /api/monitor/jsRoutes       controllers.ClientAPI.jsRoutes
+
+GET     /main/monitorUI             controllers.ClientUI.monitorUI
+
 
 GET     /auth/login                 controllers.Auth.login
 GET     /auth/callback              controllers.Auth.callback
@@ -14,3 +24,5 @@ GET     /auth/welcome               controllers.Auth.welcome
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+GET     /*random                    controllers.ClientUI.wildcardIndex(random)
