@@ -1,5 +1,7 @@
 package controllers
 
+import model.{C, DAO}
+import model.DAO.User
 import model.clientAPI.API
 import play.api.libs.json.Json
 import play.api.mvc.BodyParsers.parse
@@ -17,19 +19,17 @@ class LoginAPI extends Controller {
 
   def login = Action(parse.json[LoginData]) { implicit request =>
 
-    request.body match {
-      case LoginData("dario", "dario") =>
-        API("OK")
-
-      case LoginData("carmen", "compositetech") =>
-        API("OK")
-
-      case LoginData("candace", "compositetech") =>
-        API("OK")
-
-      case LoginData(_, _) =>
+    val loginRequest = request.body
+    DAO.userWithUsernameAndPassword(loginRequest.username, loginRequest.password) match {
+      case Some(user: User) =>
+        if (user.active) {
+          val session = DAO.createSessionForUser(user)
+          API(user.username).withSession(C.sessionHeader -> session)
+        } else {
+          C.NoActiveAccount
+        }
+      case None =>
         API("Invalid credentials", logout = true)
-
     }
   }
 

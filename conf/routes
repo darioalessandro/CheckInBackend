@@ -4,8 +4,8 @@
 
 # Home page
 GET     /                           controllers.ClientUI.index
-GET     /monitorSocket              controllers.ClientAPI.monitorSocket
-GET     /receiverSocket             controllers.ClientAPI.socket
+GET     /monitorSocket              controllers.ReceiverAPI.monitorSocket
+GET     /receiverSocket             controllers.ReceiverAPI.socket
 
 GET     /auth/ui                    controllers.LoginUI.login
 POST     /auth/svc                   controllers.LoginAPI.login
@@ -13,7 +13,7 @@ POST     /auth/svc                   controllers.LoginAPI.login
 GET     /ui/jsRoutes                controllers.LoginUI.jsRoutes
 GET     /api/jsRoutes               controllers.LoginAPI.jsRoutes
 GET     /ui/monitor/jsRoutes        controllers.ClientUI.jsRoutes
-GET     /api/monitor/jsRoutes       controllers.ClientAPI.jsRoutes
+GET     /api/monitor/jsRoutes       controllers.ReceiverAPI.jsRoutes
 
 GET     /main/monitorUI             controllers.ClientUI.monitorUI
 

@@ -5,7 +5,7 @@
 function MonitorController($scope, $window, error, loginSvc, $state, $websocket) {
 
     //TODO: hack to change http => ws
-    var ws = $websocket(ClientAPIRouter.controllers.ClientAPI.monitorSocket().absoluteURL().replace("http", "ws"));
+    var ws = $websocket(ClientAPIRouter.controllers.ReceiverAPI.monitorSocket().absoluteURL().replace("http", "ws"));
 
     ws.onOpen(function() {
         console.log("on open");

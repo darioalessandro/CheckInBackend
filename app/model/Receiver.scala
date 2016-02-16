@@ -15,12 +15,12 @@ import scala.util.{Success, Try}
 
 
 object Receiver {
-  def props(out: ActorRef, receiverId : String, monitor : ActorRef) = Props(new Receiver(out, receiverId, monitor))
+  def props(out: ActorRef, username : String, receiverId : String, monitor : ActorRef) = Props(new Receiver(out, username,receiverId, monitor))
   case class FoundDevices(devices : Array[Beacon.Update], receiverId : String)
 }
 
 
-class Receiver(out: ActorRef, receiverId : String, monitor : ActorRef) extends Actor {
+class Receiver(out: ActorRef, username : String, receiverId : String, monitor : ActorRef) extends Actor {
 
   def receive = {
     case msg: JsValue =>

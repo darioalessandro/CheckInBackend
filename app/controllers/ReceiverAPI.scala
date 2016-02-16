@@ -19,18 +19,19 @@ Also between monitor website and the backend.
  */
 
 @Singleton
-class ClientAPI  @Inject() (system: ActorSystem)  extends Controller {
+class ReceiverAPI  @Inject()(system: ActorSystem)  extends Controller {
 
   val monitor = system.actorOf(Props[model.Monitor]) //Single point of failure, need to refactor
   val emailSender = system.actorOf(Props[model.EmailSender], name = "emailSender") //Single point of failure, need to refactor
 
   def socket = WebSocket.tryAcceptWithActor[JsValue, JsValue] { request =>
+    Future.successful((request.headers.get("receiverId"),request.headers.get("username")) match {
 
-    Future.successful(request.headers.get("receiverId") match {
-      case None =>
+      case (Some(id), Some(username)) =>
+        Right(Receiver.props(_, username,id,monitor))
+
+      case _ =>
         Left(Forbidden)
-      case Some(id) =>
-        Right(Receiver.props(_, id, monitor))
     })
   }
 
@@ -40,14 +41,10 @@ class ClientAPI  @Inject() (system: ActorSystem)  extends Controller {
     )
   }
 
-  def monitorUI = Action {
-    Ok(views.html.clientMonitor())
-  }
-
   def jsRoutes = Action { implicit request =>
     Ok(
       JavaScriptReverseRouter("ClientAPIRouter")(
-        routes.javascript.ClientAPI.monitorSocket
+        routes.javascript.ReceiverAPI.monitorSocket
       )
     ).as("text/javascript")
   }
