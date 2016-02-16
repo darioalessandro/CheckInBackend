@@ -1,5 +1,7 @@
 package model.clientAPI
 
+import model.DAO.{Session, User}
+import model.{C, SecuredRequest}
 import play.api.libs.json._
 import play.api.mvc.{WrappedRequest, Results, Result, Request}
 import play.api.http.HeaderNames
@@ -128,7 +130,7 @@ case class APIResponse(error:Option[APIError],data:Option[JsValue]) {
   def toResult(implicit request : RequestHeader) : Result = {
     val r = Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(HeaderNames.PRAGMA -> "no-cache", "Cache-Control" -> "no-cache")
 
-    /*request match {
+    request match {
 
       case SecuredRequest(user:User,appSession : Session, request : Request[_]) =>
         Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(HeaderNames.PRAGMA -> "no-cache", "Cache-Control" -> "no-cache")
@@ -137,12 +139,8 @@ case class APIResponse(error:Option[APIError],data:Option[JsValue]) {
       case _ =>
         r
     }
-        */
-
-    r
-
-
   }
+
   def toJson : JsValue = Json.toJson(this)(JsonParsers.formatAPIResponse)
 }
 
