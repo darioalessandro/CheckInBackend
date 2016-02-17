@@ -1,5 +1,7 @@
 package controllers
 
+import model.AuthInfo
+import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import play.api.routing.JavaScriptReverseRouter
 
@@ -8,22 +10,25 @@ import play.api.routing.JavaScriptReverseRouter
   */
 class ClientUI extends Controller {
 
-  def monitorUI = Action {
+  def monitorUI = AuthInfo {  implicit request =>
     Ok(views.html.monitorUI())
   }
 
-  def wildcardIndex(wildcard : String) = Action {
-    Ok(views.html.index())
+  def main = AuthInfo {  implicit request =>
+    Ok(views.html.main(Json.toJson(request.user).toString()))
   }
 
-  def index = Action {
-    Ok(views.html.index())
+  def wildcardIndex(wildcard : String) = AuthInfo {  implicit request =>
+    Ok(views.html.index(Json.toJson(request.user).toString()))
   }
+
+  def index = this.wildcardIndex("")
 
   def jsRoutes = Action { implicit request =>
     Ok(
       JavaScriptReverseRouter("ClientUIRouter")(
-        controllers.routes.javascript.ClientUI.monitorUI
+        controllers.routes.javascript.ClientUI.monitorUI,
+        controllers.routes.javascript.ClientUI.main
       )
     ).as("text/javascript")
   }

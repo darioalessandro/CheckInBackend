@@ -47,6 +47,7 @@ class Monitor extends Actor {
     case s : SubscribeForReceiverUpdates =>
       this.context.watch(sender())
       this.clientMonitors = sender() :: this.clientMonitors
+      broadcastToMonitors(receivers)
 
     case d : DeadLetter =>
       //TODO: handle clientMonitor disconnection

@@ -10,7 +10,7 @@ CREATE  TABLE IF NOT EXISTS `checkin`.`sessions` (
 
 
 -- -----------------------------------------------------
--- Table `vsms_reflash`.`users`
+-- Table `checkin`.`users`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `checkin`.`users` (
   `username` VARCHAR(50) NOT NULL ,

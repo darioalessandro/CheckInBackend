@@ -1,4 +1,4 @@
-
+@(me:String)(implicit lang: Lang)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,10 +26,13 @@
     Akka Framework, Akka Cluster, Anorm, Play Framework, Angular JS,
     Java, Objective C, Scala, Javascript, CSS, C, Swift,
     IntelliJ, XCode, sbt, ssh, scp, Mac OS X, Linux, Windows 7">
-    <title>Dario A Lencina-Talarico</title>
+    <title>CheckIn</title>
     <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")">
     <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.min.css")">
     <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("css/main.css")">
+    <script type="application/javascript">
+            window.me=@Html(me);
+    </script>
 
     <script src="@routes.Assets.versioned("lib/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")"></script>
@@ -52,7 +55,9 @@
     <script src="@routes.Assets.versioned("js/error.js")"></script>
     <script src="@routes.Assets.versioned("js/LoginSvc.js")"></script>
     <script src="@routes.Assets.versioned("js/LoginController.js")"></script>
+    <script src="@routes.Assets.versioned("js/MainController.js")"></script>
     <script src="@routes.Assets.versioned("js/MonitorController.js")"></script>
+    <script src="@routes.Assets.versioned("js/httpInterceptor.js")"></script>
 
 </head>
     <body ng-app="appAuth">

@@ -128,16 +128,16 @@ case class APIError(m:String,logout:Boolean)
 
 case class APIResponse(error:Option[APIError],data:Option[JsValue]) {
   def toResult(implicit request : RequestHeader) : Result = {
-    val r = Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(HeaderNames.PRAGMA -> "no-cache", "Cache-Control" -> "no-cache")
+
+    val headers = List(HeaderNames.PRAGMA -> "no-cache", "Cache-Control" -> "no-cache")
 
     request match {
-
       case SecuredRequest(user:User,appSession : Session, request : Request[_]) =>
-        Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(HeaderNames.PRAGMA -> "no-cache", "Cache-Control" -> "no-cache")
+        Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(headers : _*)
           .withSession((C.sessionHeader, appSession.session))
 
       case _ =>
-        r
+        Results.Ok(Json.toJson(this)(JsonParsers.formatAPIResponse)).withHeaders(headers : _*)
     }
   }
 

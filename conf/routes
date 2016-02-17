@@ -8,7 +8,8 @@ GET     /monitorSocket              controllers.ReceiverAPI.monitorSocket
 GET     /receiverSocket             controllers.ReceiverAPI.socket
 
 GET     /auth/ui                    controllers.LoginUI.login
-POST     /auth/svc                   controllers.LoginAPI.login
+POST     /auth/login                controllers.LoginAPI.login
+POST     /auth/logout               controllers.LoginAPI.logout
 
 GET     /ui/jsRoutes                controllers.LoginUI.jsRoutes
 GET     /api/jsRoutes               controllers.LoginAPI.jsRoutes
@@ -16,6 +17,7 @@ GET     /ui/monitor/jsRoutes        controllers.ClientUI.jsRoutes
 GET     /api/monitor/jsRoutes       controllers.ReceiverAPI.jsRoutes
 
 GET     /main/monitorUI             controllers.ClientUI.monitorUI
+GET     /main                       controllers.ClientUI.main
 
 
 GET     /auth/login                 controllers.Auth.login

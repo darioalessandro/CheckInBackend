@@ -3,9 +3,6 @@
     <div class="row">
         <h2 class="form-signin-heading col-xs-8 col-xs-offset-2" ng-hide="isLoginWorking()">Please sign in</h2>
     </div>
-    <div class="row">
-        <h2 class="form-signin-heading col-xs-8 col-xs-offset-2" ng-show="isLoginWorking()">Connecting...</h2>
-    </div>
 
     <div class="row">
         @views.html.spinner("isLoginWorking()")

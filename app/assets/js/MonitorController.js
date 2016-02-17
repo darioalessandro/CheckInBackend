@@ -24,31 +24,7 @@ function MonitorController($scope, $window, error, loginSvc, $state, $websocket)
         login : null
     };
 
-
-    $scope.submit = function(username, password) {
-
-        var loginPayload = {
-            username : username,
-            password : password,
-            client_id : $window.client_id,
-            scope : $window.scope
-        };
-
-        $scope.requests.login = loginSvc.execute(loginPayload,
-            function(APISuccess) {
-                $scope.errors.login = null;
-                window.loginData = APISuccess.data;
-                $state.go("monitorUI");
-            },function(APIError) {
-                $scope.errors.login = error.apply(APIError.m, function() {
-                    return $scope.submit($scope.username, $scope.password);
-                });
-            }, function(HTTPError) {
-                $scope.errors.login = error.apply("Please verify your internet connection", function() {
-                    return $scope.submit($scope.username, $scope.password);
-                });
-        });
-    };
+    $scope.me = window.me;
 
     $scope.isLoginWorking = function(){
         return !$scope.isValueInvalid($scope.requests.login) &&

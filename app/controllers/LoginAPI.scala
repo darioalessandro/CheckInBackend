@@ -24,7 +24,7 @@ class LoginAPI extends Controller {
       case Some(user: User) =>
         if (user.active) {
           val session = DAO.createSessionForUser(user)
-          API(user.username).withSession(C.sessionHeader -> session)
+          API(user).withSession(C.sessionHeader -> session)
         } else {
           C.NoActiveAccount
         }
@@ -33,10 +33,21 @@ class LoginAPI extends Controller {
     }
   }
 
+  def logout = Action { implicit request =>
+      request.session.get(C.sessionHeader) match {
+        case Some(session) =>
+          DAO.closeSession(session)
+        case None =>
+      }
+    API(Json.toJson("bye")).withNewSession
+  }
+
+
   def jsRoutes = Action { implicit request =>
     Ok(
       JavaScriptReverseRouter("LoginAPIRouter")(
-        controllers.routes.javascript.LoginAPI.login
+        controllers.routes.javascript.LoginAPI.login,
+        controllers.routes.javascript.LoginAPI.logout
       )
     ).as("text/javascript")
   }

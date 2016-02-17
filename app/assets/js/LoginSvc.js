@@ -6,9 +6,11 @@ var app = angular.module("appAuth");
 
 app.factory('loginSvc', ["httpClient", function (httpClient) {
     return {
-        execute:function(loginPayload,APISuccess,APIError,HTTPError){
-
+        login:function(loginPayload,APISuccess,APIError,HTTPError){
             return httpClient.post(LoginAPIRouter.controllers.LoginAPI.login().url, loginPayload,APISuccess,APIError,HTTPError);
+        },
+        logout:function(APISuccess,APIError,HTTPError){
+            return httpClient.post(LoginAPIRouter.controllers.LoginAPI.logout().url,{},APISuccess,APIError,HTTPError);
         }
     };
 }]);

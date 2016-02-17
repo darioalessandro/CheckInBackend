@@ -1,25 +1,9 @@
-@()(implicit lang: Lang)
-
 <div role="main" class="container">
-  <div class="row">
-    <table class="table table-bordered table-hover table-responsive">
-      <thead>
-        <tr>
-          <th>
-            ReceiverId
-          </th>
-          <th >
-            beacons
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="(key, value) in receivers track by $index">
-          <td>{{key}}</td>
-          <td>{{value}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="list-group">
+    <a href="#" class="list-group-item" ng-repeat="(receiverId, beacons) in receivers track by $index">
+    <h4 class="list-group-item-heading">Receiver identifier: {{receiverId}}</h4>
+      <p class="list-group-item-text" ng-repeat="beacon in beacons">timestamp: {{beacon.timestamp }} name:{{beacon.name}} RSSI: {{beacon.RSSI}} identifier: {{beacon.identifier}}</p>
+    </a>
   </div>
 </div>
 
