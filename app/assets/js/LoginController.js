@@ -28,7 +28,7 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope) {
         $scope.requests.login = loginSvc.login(loginPayload,
             function(APISuccess) {
                 $scope.errors.login = null;
-                $window.me = APISuccess.data;
+                window.me = APISuccess.data;
                 $state.go("main.monitor", null, {location : 'replace'});
             },function(APIError) {
                 $scope.errors.login = error.apply(APIError.m, function() {
