@@ -14,14 +14,14 @@ function MainController($scope, $window, error, $state, loginSvc) {
 
     $scope.me = window.me;
 
-    if(window.me === null) {
+    if(window.me === null || window.me === undefined) {
         $state.go("login", null, {location : 'replace'});
     }
 
     $scope.logout = function() {
         $scope.requests.logout = loginSvc.logout(
             function(APISuccess) {
-                $window.me = null;
+                $window.me = undefined;
                 $scope.errors.logout = null;
                 $state.go("login", null, {location : 'replace'});
             },function(APIError) {

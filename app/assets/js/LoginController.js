@@ -2,7 +2,7 @@
  * Created by darioalessandro on 9/5/15.
  */
 
-function LoginController($scope, $window, error, loginSvc, $state, $rootScope) {
+function LoginController($scope, $window, error, loginSvc, $state, $rootScope, $templateCache) {
 
     var self = $scope;
 
@@ -18,6 +18,9 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope) {
 
     $scope.submit = function(username, password) {
 
+        if($scope.isValueInvalid(username) || $scope.isValueInvalid(password))
+            return;
+
         var loginPayload = {
             username : username,
             password : password,
@@ -29,6 +32,7 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope) {
             function(APISuccess) {
                 $scope.errors.login = null;
                 window.me = APISuccess.data;
+                $templateCache.remove(ClientUIRouter.controllers.ClientUI.main().url);
                 $state.go("main.monitor", null, {location : 'replace'});
             },function(APIError) {
                 $scope.errors.login = error.apply(APIError.m, function() {
@@ -65,7 +69,7 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope) {
         return value === undefined || value === null;
     };
 
-    if(window.me !== null) {
+    if(window.me !== undefined && window.me !== null) {
         $state.go("main.monitor", null, {location : 'replace'});
     }
 
