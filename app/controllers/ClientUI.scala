@@ -24,6 +24,11 @@ class ClientUI extends Controller {
 
   def index = this.wildcardIndex("")
 
+  def nativeIndex = AuthInfo {
+    implicit request =>
+      Ok(views.html.native.index(Json.toJson(request.user).toString()))
+  }
+
   def jsRoutes = Action { implicit request =>
     Ok(
       JavaScriptReverseRouter("ClientUIRouter")(

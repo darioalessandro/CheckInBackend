@@ -4,10 +4,13 @@
 
 # Home page
 GET     /                           controllers.ClientUI.index
+
+GET     /nativeIndex                controllers.ClientUI.nativeIndex
+
 GET     /monitorSocket              controllers.ReceiverAPI.monitorSocket
 GET     /receiverSocket             controllers.ReceiverAPI.socket
 
-GET     /auth/ui                    controllers.LoginUI.login
+GET      /auth/ui                   controllers.LoginUI.login
 POST     /auth/login                controllers.LoginAPI.login
 POST     /auth/logout               controllers.LoginAPI.logout
 
@@ -18,11 +21,6 @@ GET     /api/monitor/jsRoutes       controllers.ReceiverAPI.jsRoutes
 
 GET     /main/monitorUI             controllers.ClientUI.monitorUI
 GET     /main                       controllers.ClientUI.main
-
-
-GET     /auth/login                 controllers.Auth.login
-GET     /auth/callback              controllers.Auth.callback
-GET     /auth/welcome               controllers.Auth.welcome
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

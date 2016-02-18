@@ -1,8 +1,8 @@
-package controllers
+package controllers.oauth
 
 import play.api.Play
-import play.api.mvc.{Action, Controller}
 import play.api.Play.current
+import play.api.mvc.{Action, Controller}
 
 /**
   * Created by darioalessandro on 2/1/16.
@@ -13,7 +13,8 @@ class Auth extends Controller {
 
   def callback = Action { request =>
     println(request.queryString.mkString)
-    Redirect(controllers.routes.Auth.welcome().url)
+    Ok("")
+    //Redirect(controllers.oauth.routes.Auth.welcome().url)
   }
 
   def login = Action {
