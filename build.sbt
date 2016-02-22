@@ -2,7 +2,7 @@ import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 
 name := """CheckIn"""
 
-version := "1.4-SNAPSHOT"
+version := "1.5-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
