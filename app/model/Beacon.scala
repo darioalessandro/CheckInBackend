@@ -15,8 +15,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object Beacon {
   case class Update(RSSI: String, identifier : String, timeIntervalSince1970 : Date, name : Option[String])
-  case class DidGetUpdate(update : Update, receiverId : String)
-  case class WatchdogTimeout(receiverId : String)
+  case class DidGetUpdate(update : Update, receiverId : String, receiverUsername : String)
+  case class WatchdogTimeout(receiverId : String, receiverUsername : String)
 }
 
 
@@ -36,15 +36,15 @@ class Beacon(uniqueIdentifier : String, deviceName : Option[String]) extends Act
 
   override def receive = {
 
-    case WatchdogTimeout(receiverId) =>
+    case WatchdogTimeout(receiverId, username) =>
       if(status == BeaconStatus.Connected) {
         status = BeaconStatus.Disconnected
-        val content = s"$deviceName disconnected from $receiverId @ ${new Date().toString} from "
+        val content = s"$deviceName disconnected from $receiverId @ ${new Date().toString} owned by $username"
         println(content)
         emailSender ! EmailSender.Email(content, List("dario.lencina@compositetech.com", "cadams@compositetech.com", "carmen.waite@compositetech.com"), content)
       }
 
-    case DidGetUpdate(Beacon.Update(rssi , identifier, timeIntervalSince1970 : Date, name), receiverId) =>
+    case DidGetUpdate(Beacon.Update(rssi , identifier, timeIntervalSince1970 : Date, name), receiverId, username) =>
 
       val rssiFloat = rssi.toInt
 
@@ -57,12 +57,12 @@ class Beacon(uniqueIdentifier : String, deviceName : Option[String]) extends Act
 
         val timeDelta = Math.abs(updateMilis - systemMilis)
 
-        timer = Some(context.system.scheduler.scheduleOnce(10 seconds, self, WatchdogTimeout(receiverId)))
+        timer = Some(context.system.scheduler.scheduleOnce(10 seconds, self, WatchdogTimeout(receiverId, username)))
 
         val emailContent : Option[String] = status match {
           case BeaconStatus.Disconnected if timeDelta < 10000 =>
             status = BeaconStatus.Connected
-            Some(s"$name connected to $receiverId")
+            Some(s"$name connected to $receiverId owned by $username")
 
           case BeaconStatus.Connected if timeDelta > 10000 =>
             status = BeaconStatus.Disconnected
@@ -74,7 +74,7 @@ class Beacon(uniqueIdentifier : String, deviceName : Option[String]) extends Act
 
         emailContent foreach { content =>
           println(content)
-          emailSender ! EmailSender.Email(content + s" @ ${new Date().toString}", List("darioalessandrolencina@gmail.com"), s"$content @ ${new Date().toString}")
+          emailSender ! EmailSender.Email(content + s" @ ${new Date().toString}", List("dario.lencina@compositetech.com", "cadams@compositetech.com", "carmen.waite@compositetech.com"), s"$content @ ${new Date().toString}")
         }
 
       }

@@ -16,7 +16,7 @@ import scala.util.{Success, Try}
 
 object Receiver {
   def props(out: ActorRef, username : String, receiverId : String, monitor : ActorRef) = Props(new Receiver(out, username,receiverId, monitor))
-  case class FoundDevices(devices : Array[Beacon.Update], receiverId : String)
+  case class FoundDevices(devices : Array[Beacon.Update], receiverId : String, username : String)
 }
 
 
@@ -25,7 +25,7 @@ class Receiver(out: ActorRef, username : String, receiverId : String, monitor : 
   def receive = {
     case msg: JsValue =>
       devicesFromJson(msg).map { devices =>
-        monitor ! FoundDevices(devices, receiverId)
+        monitor ! FoundDevices(devices, receiverId, username)
       }
   }
 

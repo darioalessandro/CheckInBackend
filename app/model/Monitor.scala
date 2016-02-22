@@ -22,8 +22,8 @@ class Monitor extends Actor {
   var clientMonitors : List[ActorRef] = List[ActorRef]()
 
   override def receive = {
-    case FoundDevices(devices, receiverId) =>
-     receivers = receivers + (receiverId -> devices)
+    case FoundDevices(devices, receiverId, username) =>
+     receivers = receivers + (s"""$receiverId-$username""" -> devices)
 
      devices foreach { device =>
        val beacon  = beacons.get(device.identifier).map {c => c} getOrElse {
@@ -32,7 +32,7 @@ class Monitor extends Actor {
          beacons = beacons + (device.identifier -> newBeacon)
          newBeacon
        }
-       beacon ! Beacon.DidGetUpdate(device, receiverId)
+       beacon ! Beacon.DidGetUpdate(device, receiverId, username)
      }
 
 
