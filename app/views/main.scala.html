@@ -1,6 +1,7 @@
-@(me:String)(implicit lang: Lang)
+@(me:String, permissions : String)(implicit lang: Lang)
 <script type="application/javascript">
         window.me=@Html(me);
+        window.permissions=@Html(permissions);
 </script>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -16,9 +17,11 @@
         </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a class="">Signed in as {{me.firstName + " "+ me.lastName}}</a></li>
+                <li ng-class="{active : menu.section === 'engineering'}"><a ui-sref="main.engineering" ng-show="permissions.engineering">Engineering</a></li>
+                <li ng-class="{active : menu.section === 'myhome'}"><a ui-sref="main.myhome" ng-show="permissions.home">Home</a></li>
+                <li><a class="" style="font-weight: bolder;">Signed in as {{me.firstName + " "+ me.lastName}}</a></li>
                 <li><a href="#" ng-hide="isLogoutWorking()" ng-click="logout()">Logout</a></li>
                 <li ng-show="isLogoutWorking()"><a>@views.html.spinner("isLogoutWorking()")</a></li>
             </ul>

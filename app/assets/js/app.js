@@ -8,7 +8,7 @@ angular.module('appAuth', ['ui.router', 'ui.bootstrap', 'ngIOS9UIWebViewPatch', 
     }])
     .config(function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/home/monitor");
+    $urlRouterProvider.otherwise("/home/engineering");
 
     $stateProvider
         .state('login', {
@@ -27,13 +27,21 @@ angular.module('appAuth', ['ui.router', 'ui.bootstrap', 'ngIOS9UIWebViewPatch', 
                     controller : "MainController"
                 }
             }
-        }).state('main.monitor', {
-            url: "/monitor",
+        }).state('main.engineering', {
+            url: "/engineering",
             views: {
                 "section" : {
                     templateUrl: function(){return ClientUIRouter.controllers.ClientUI.monitorUI().url;},
                     controller : "MonitorController"
                 }
             }
-        });
+        }).state('main.myhome', {
+        url: "/myhome",
+        views: {
+            "section" : {
+                templateUrl: function(){return ClientUIRouter.controllers.ClientUI.homeUI().url;},
+                controller : "MyHomeController"
+            }
+        }
+    });
 });

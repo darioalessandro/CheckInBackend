@@ -33,7 +33,7 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope, $
                 $scope.errors.login = null;
                 window.me = APISuccess.data;
                 $templateCache.remove(ClientUIRouter.controllers.ClientUI.main().url);
-                $state.go("main.monitor", null, {location : 'replace'});
+                $state.go("main.myhome", null, {location : 'replace'});
             },function(APIError) {
                 $scope.errors.login = error.apply(APIError.m, function() {
                     return $scope.submit($scope.username, $scope.password);
@@ -70,7 +70,7 @@ function LoginController($scope, $window, error, loginSvc, $state, $rootScope, $
     };
 
     if(window.me !== undefined && window.me !== null) {
-        $state.go("main.monitor", null, {location : 'replace'});
+        $state.go("main.myhome", null, {location : 'replace'});
     }
 
 }

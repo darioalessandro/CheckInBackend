@@ -20,6 +20,7 @@ GET     /ui/monitor/jsRoutes        controllers.ClientUI.jsRoutes
 GET     /api/monitor/jsRoutes       controllers.ReceiverAPI.jsRoutes
 
 GET     /main/monitorUI             controllers.ClientUI.monitorUI
+GET     /main/homeUI                controllers.ClientUI.homeUI
 GET     /main                       controllers.ClientUI.main
 
 # Map static resources from the /public folder to the /assets URL path

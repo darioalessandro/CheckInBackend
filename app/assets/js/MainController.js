@@ -4,6 +4,8 @@
 
 function MainController($scope, $window, error, $state, loginSvc) {
 
+    $scope.menu = {};
+
     $scope.errors = {
         logout :  null
     };
@@ -13,6 +15,8 @@ function MainController($scope, $window, error, $state, loginSvc) {
     };
 
     $scope.me = window.me;
+
+    $scope.permissions = window.permissions;
 
     if(window.me === null || window.me === undefined) {
         $state.go("login", null, {location : 'replace'});

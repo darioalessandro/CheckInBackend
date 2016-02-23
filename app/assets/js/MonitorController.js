@@ -4,6 +4,8 @@
 
 function MonitorController($scope, $window, error, loginSvc, $state, $websocket) {
 
+    $scope.menu.section = 'engineering';
+
     //TODO: hack to change http => ws
     var ws = $websocket(ClientAPIRouter.controllers.ReceiverAPI.monitorSocket().absoluteURL().replace("http", "ws"));
 
