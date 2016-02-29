@@ -17,6 +17,7 @@ object Beacon {
   case class Update(RSSI: String, identifier : String, timeIntervalSince1970 : Date, name : Option[String])
   case class DidGetUpdate(update : Update, receiverId : String, receiverUsername : String)
   case class WatchdogTimeout(receiverId : String, receiverUsername : String)
+  case class OnStatusChanged(uniqueIdentifier : String, beaconId: String, deviceName : Option[String], status:String, receiverId:String, timestamp:Date)
 }
 
 

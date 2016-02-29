@@ -23,7 +23,7 @@ class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
     monitor ! new Monitor.SubscribeForReceiverUpdates()
   }
 
-  val df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+  val df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
 
 
   implicit val deviceWriter = new Writes[Beacon.Update] {

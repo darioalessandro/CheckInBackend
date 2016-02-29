@@ -1,0 +1,6 @@
+<li class="list-group-item" ng-repeat="beacon in beacons track by $index">
+    <h4 class="list-group-item-heading"><img ng-src="{{beacon.icon}}"> {{beacon.name }}</h4>
+    <a ng-click="configureBeacon(beacon)" class="label label-default label-pill pull-right">configure alerts</a>
+    <p class="list-group-item-text"><b>Location:</b> {{beacon.lastTimeSeen}}</p>
+</li>
+

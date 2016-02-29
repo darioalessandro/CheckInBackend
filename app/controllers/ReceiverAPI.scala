@@ -8,7 +8,7 @@ import play.api.libs.json._
 import play.api.routing.JavaScriptReverseRouter
 import scala.concurrent.ExecutionContext.Implicits.global
 import javax.inject.{Inject, Singleton}
-import model.{ClientMonitor, Receiver}
+import model.{HomeMonitor, ClientMonitor, Receiver}
 import play.api.Play.current
 
 import scala.concurrent.Future
@@ -38,6 +38,12 @@ class ReceiverAPI  @Inject()(system: ActorSystem)  extends Controller {
   def monitorSocket = WebSocket.tryAcceptWithActor[JsValue, JsValue] { request =>
     Future.successful(
         Right(ClientMonitor.props(_, monitor))
+    )
+  }
+
+  def homeSocket = WebSocket.tryAcceptWithActor[JsValue, JsValue] { request =>
+    Future.successful(
+        Right(HomeMonitor.props(_))
     )
   }
 
