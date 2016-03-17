@@ -5,6 +5,18 @@
 function MyHomeController($scope, $window, error, loginSvc, $state, $websocket) {
     $scope.menu.section = 'myhome';
 
+    //TODO: hack to change http => ws
+    var ws = $websocket(ClientAPIRouter.controllers.ReceiverAPI.homeSocket().absoluteURL().replace("http", "ws"));
+
+    ws.onOpen(function() {
+        console.log("on open");
+    });
+
+    ws.onMessage(function(message) {
+        console.log("on message");
+        $scope.receivers =JSON.parse(message.data);
+    });
+
     $scope.beacons = [
         {
             name : "Joseph",

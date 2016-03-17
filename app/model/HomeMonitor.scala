@@ -7,10 +7,11 @@ import akka.actor.{Props, ActorRef, Actor}
   */
 
 object HomeMonitor {
-  def props(out: ActorRef) = Props(new HomeMonitor(out))
+
+  def props(out: ActorRef,session : DAO.Session, user : DAO.User) = Props(new HomeMonitor(out,session, user))
 }
 
-class HomeMonitor(out : ActorRef) extends Actor {
+class HomeMonitor(out : ActorRef, session : DAO.Session, user : DAO.User) extends Actor {
 
 
   override def receive = {

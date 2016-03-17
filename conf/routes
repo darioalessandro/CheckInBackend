@@ -8,7 +8,9 @@ GET     /                           controllers.ClientUI.index
 GET     /nativeIndex                controllers.ClientUI.nativeIndex
 
 GET     /monitorSocket              controllers.ReceiverAPI.monitorSocket
+GET     /homeSocket                 controllers.ReceiverAPI.homeSocket
 GET     /receiverSocket             controllers.ReceiverAPI.socket
+GET     /beacon                     controllers.ReceiverAPI.beacon
 
 GET      /auth/ui                   controllers.LoginUI.login
 POST     /auth/login                controllers.LoginAPI.login

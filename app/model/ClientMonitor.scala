@@ -32,7 +32,8 @@ class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
         "RSSI" -> c.RSSI,
         "identifier" -> c.identifier,
         "timestamp" -> df.format(c.timeIntervalSince1970),
-        "name" -> c.name
+        "name" -> c.name,
+        "serviceUUID" -> c.serviceUUID
       )
       cJson
     }

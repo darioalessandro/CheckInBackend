@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 
 object Beacon {
-  case class Update(RSSI: String, identifier : String, timeIntervalSince1970 : Date, name : Option[String])
+  case class Update(RSSI: String, identifier : String, timeIntervalSince1970 : Date, name : Option[String], serviceUUID : String)
   case class DidGetUpdate(update : Update, receiverId : String, receiverUsername : String)
   case class WatchdogTimeout(receiverId : String, receiverUsername : String)
   case class OnStatusChanged(uniqueIdentifier : String, beaconId: String, deviceName : Option[String], status:String, receiverId:String, timestamp:Date)
@@ -45,7 +45,7 @@ class Beacon(uniqueIdentifier : String, deviceName : Option[String]) extends Act
         emailSender ! EmailSender.Email(content, List("dario.lencina@compositetech.com", "cadams@compositetech.com", "carmen.waite@compositetech.com"), content)
       }
 
-    case DidGetUpdate(Beacon.Update(rssi , identifier, timeIntervalSince1970 : Date, name), receiverId, username) =>
+    case DidGetUpdate(Beacon.Update(rssi , identifier, timeIntervalSince1970 : Date, name, serviceUUID), receiverId, username) =>
 
       val rssiFloat = rssi.toInt
 

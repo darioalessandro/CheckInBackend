@@ -46,7 +46,8 @@ class Receiver(out: ActorRef, username : String, receiverId : String, monitor : 
       val dateInt = (r \ "timeIntervalSince1970").as[String]
       val timeIntervalSince1970 : Date = new java.util.Date(Math.round(dateInt.toDouble) * 1000)
       val name = (r \ "name").asOpt[String]
-      JsSuccess(Beacon.Update(RSSI, identifier, timeIntervalSince1970, name))
+      val serviceUUID = (r \ "serviceUUID").as[String]
+      JsSuccess(Beacon.Update(RSSI, identifier, timeIntervalSince1970, name, serviceUUID))
     }
   }
 

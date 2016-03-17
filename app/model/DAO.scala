@@ -132,6 +132,17 @@ object DAO {
       }.headOption
     }
 
+  def registerBeacon(name : String, user : User): Unit = {
+    val session= UUID.randomUUID().toString
+    DB.withConnection("authorization") { implicit c =>
+      SQL(
+        """
+          INSERT INTO beacons (username, uuid, name) VALUES ({username}, {uuid}, {name});
+        """
+      ).on('username -> user.username, 'session -> session, 'active -> true).executeInsert()
+    }
+  }
+
   def updateUserActive(user : User) : Int = {
     DB.withConnection("authorization") { implicit connection =>
       SQL(
