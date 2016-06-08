@@ -49,6 +49,7 @@ class Receiver(out: ActorRef, username : String, receiverId : String, monitor : 
       val timestamp : Date = new Date()//new java.util.Date(Math.round((r \ "timestamp").as[String].toDouble) * 1000)
       val name = (r \ "name").asOpt[String]
       JsSuccess(Beacon.Update(uuid, major,  minor, power, timestamp))
+
     }
   }
 

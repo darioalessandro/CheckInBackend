@@ -45,6 +45,7 @@ class Beacon(uuid : String, major : String, minor : String, deviceName : Option[
         emailSender ! EmailSender.Email(content, List("dario.lencina@compositetech.com", "cadams@compositetech.com", "carmen.waite@compositetech.com"), content)
       }
 
+
     case DidGetUpdate(Beacon.Update(_uuid, _major, _minor,power,timestamp), receiverId, username) =>
 
       val rssiFloat = power.toInt

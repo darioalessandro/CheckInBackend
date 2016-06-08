@@ -33,12 +33,12 @@ class EmailSender extends Actor {
 
       val recipientsAddresses : Seq[InternetAddress]  = recipients.map{recipient => new InternetAddress(recipient)}.toSeq
 
-      mailer(Envelope.from(new InternetAddress("checkinblenoreply@gmail.com"))
-        .to(recipientsAddresses:_*)
-        .subject(title)
-        .content(Text(body))).onSuccess {
-        case _ => println("message delivered")
-      }
+     // mailer(Envelope.from(new InternetAddress("checkinblenoreply@gmail.com"))
+//        .to(recipientsAddresses:_*)
+//        .subject(title)
+//        .content(Text(body))).onSuccess {
+//        case _ => println("message delivered")
+//      }
 
   }
 

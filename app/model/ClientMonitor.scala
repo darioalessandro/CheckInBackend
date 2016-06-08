@@ -29,6 +29,7 @@ class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
   implicit val deviceWriter = new Writes[Beacon.Update] {
     def writes(c: Beacon.Update): JsValue = {
       val cJson = Json.obj(
+
         "rssi" -> c.power,
         "uuid" -> c.uuid,
         "major" -> c.major,
