@@ -3,9 +3,13 @@ package model
 import java.util.Date
 
 import akka.actor.{Cancellable, Actor}
+import anorm._
 import model.Beacon.{WatchdogTimeout, DidGetUpdate, Update}
+import play.api.db.DB
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Try
+import play.api.Play.current
 
 /**
   * This is the Device that the child carries.
@@ -18,9 +22,8 @@ object Beacon {
   case class DidGetUpdate(update : Update, receiverId : String, receiverUsername : String)
   case class WatchdogTimeout(receiverId : String, receiverUsername : String)
   case class OnStatusChanged(uniqueIdentifier : String, beaconId: String, deviceName : Option[String], status:String, receiverId:String, timestamp:Date)
+  case class Owner(username : String, name : String)
 }
-
-
 
 class Beacon(uuid : String, major : String, minor : String, deviceName : Option[String]) extends Actor {
 
@@ -35,12 +38,29 @@ class Beacon(uuid : String, major : String, minor : String, deviceName : Option[
 
   var timer : Option[Cancellable] = None
 
+  val parser: RowParser[Beacon.Owner] = new RowParser[Beacon.Owner] {
+      override def apply(v1: Row): SqlResult[Beacon.Owner] = {
+            Success(new Beacon.Owner(v1[String]("username"),v1[String]("name")))
+      }
+  }
+
+  def owner  = {
+    DB.withConnection("authorization") { implicit c =>
+      SQL(
+        """
+          SELECT * FROM checkin.beacons where uuid = {uuid};
+        """
+      ).on('uuid -> (uuid+"-"+major+"-"+minor)).as[Option[Beacon.Owner]](parser.singleOpt)
+    }
+  }
+
   override def receive = {
 
     case WatchdogTimeout(receiverId, username) =>
       if(status == BeaconStatus.Connected) {
         status = BeaconStatus.Disconnected
-        val content = s"$deviceName disconnected from $receiverId @ ${new Date().toString} owned by $username"
+        val ownerinfo = owner.map(o => o.username+"' "+o.name).getOrElse(s"unknown beacon $uuid")
+        val content = s"$ownerinfo disconnected from $receiverId @ ${new Date().toString} owned by $username"
         println(content)
         emailSender ! EmailSender.Email(content, List("dario.lencina@compositetech.com", "cadams@compositetech.com", "carmen.waite@compositetech.com"), content)
       }
@@ -66,11 +86,13 @@ class Beacon(uuid : String, major : String, minor : String, deviceName : Option[
         val emailContent : Option[String] = status match {
           case BeaconStatus.Disconnected if timeDelta < 10000 =>
             status = BeaconStatus.Connected
-            Some(s"$uuid connected to $receiverId owned by $username")
+            val ownerinfo = owner.map(o => o.username+"' "+o.name).getOrElse(s"unknown beacon $uuid")
+            Some(s"$ownerinfo connected to $receiverId owned by $username")
 
           case BeaconStatus.Connected if timeDelta > 10000 =>
+            val ownerinfo = owner.map(o => o.username+"' "+o.name).getOrElse(s"unknown beacon $uuid")
             status = BeaconStatus.Disconnected
-            Some(s"$uuid disconnected")
+            Some(s"$ownerinfo disconnected")
 
           case _ =>
             None
