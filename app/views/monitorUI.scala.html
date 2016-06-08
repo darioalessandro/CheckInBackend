@@ -2,7 +2,7 @@
   <div class="list-group">
     <a href="#" class="list-group-item" ng-repeat="(receiverId, beacons) in receivers track by $index">
     <h4 class="list-group-item-heading">Receiver identifier: {{receiverId}}</h4>
-      <p class="list-group-item-text" ng-repeat="beacon in beacons">timestamp: {{beacon.timestamp }} name:{{beacon.name}} RSSI: {{beacon.RSSI}} identifier: {{beacon.identifier}}</p>
+      <p class="list-group-item-text" ng-repeat="beacon in beacons">timestamp: {{beacon.timestamp }} uuid:{{beacon.uuid+"-"+beacon.major+"-"+beacon.minor}} rssi: {{beacon.rssi}}</p>
     </a>
   </div>
 </div>

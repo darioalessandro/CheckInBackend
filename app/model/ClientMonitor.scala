@@ -29,10 +29,11 @@ class ClientMonitor(out : ActorRef, monitor : ActorRef) extends Actor {
   implicit val deviceWriter = new Writes[Beacon.Update] {
     def writes(c: Beacon.Update): JsValue = {
       val cJson = Json.obj(
-        "RSSI" -> c.RSSI,
-        "identifier" -> c.identifier,
-        "timestamp" -> df.format(c.timeIntervalSince1970),
-        "name" -> c.name
+        "rssi" -> c.power,
+        "uuid" -> c.uuid,
+        "major" -> c.major,
+        "minor" -> c.minor,
+        "timestamp" -> df.format(c.timestamp)
       )
       cJson
     }

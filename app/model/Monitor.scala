@@ -21,17 +21,25 @@ class Monitor extends Actor {
 
   var clientMonitors : List[ActorRef] = List[ActorRef]()
 
+  private def mergeDevices(oldDevices : Array[Beacon.Update], newDevices : Array[Beacon.Update]) = {
+    newDevices ++ oldDevices.filter(b => !newDevices.exists(d => b.uuid == d.uuid))
+  }
+
   override def receive = {
     case FoundDevices(devices, receiverId, username) =>
-     receivers = receivers + (s"""$receiverId-$username""" -> devices)
+      val requestedReceiver = receivers.get(receiverId)
+      val combinedDevices = requestedReceiver.map {mergeDevices(_,devices)
+      }.getOrElse{devices}
 
-     devices foreach { device =>
-       val beacon  = beacons.get(device.identifier).map {c => c} getOrElse {
+      receivers = receivers +  (receiverId -> combinedDevices)
 
-         val newBeacon = context.actorOf(Props(new Beacon(device.identifier, device.name)), name = device.identifier)
-         beacons = beacons + (device.identifier -> newBeacon)
+      combinedDevices foreach { device =>
+       val beacon  = beacons.getOrElse(device.uuid, {
+         val newBeacon = context.actorOf(Props(new Beacon(device.uuid, device.major,device.minor, Some(device.uuid))), name = device.uuid)
+         beacons = beacons + (device.uuid -> newBeacon)
          newBeacon
-       }
+       })
+
        beacon ! Beacon.DidGetUpdate(device, receiverId, username)
      }
 
@@ -51,7 +59,6 @@ class Monitor extends Actor {
 
     case d : DeadLetter =>
       //TODO: handle clientMonitor disconnection
-
 
   }
 

@@ -41,12 +41,14 @@ class Receiver(out: ActorRef, username : String, receiverId : String, monitor : 
 //    val dateFormatter = C.dateFormatter
 
     def reads(r: JsValue): JsResult[Beacon.Update] = {
-      val RSSI: String = (r \ "RSSI").as[String]
-      val identifier : String = (r \ "identifier").as[String]
-      val dateInt = (r \ "timeIntervalSince1970").as[String]
-      val timeIntervalSince1970 : Date = new java.util.Date(Math.round(dateInt.toDouble) * 1000)
+      val uuid: String = (r \ "uuid").as[String]
+      val major : String = (r \ "major").as[String]
+      val minor = (r \ "minor").as[String]
+      val power = (r \ "power").as[String]
+
+      val timestamp : Date = new Date()//new java.util.Date(Math.round((r \ "timestamp").as[String].toDouble) * 1000)
       val name = (r \ "name").asOpt[String]
-      JsSuccess(Beacon.Update(RSSI, identifier, timeIntervalSince1970, name))
+      JsSuccess(Beacon.Update(uuid, major,  minor, power, timestamp))
     }
   }
 
