@@ -6,6 +6,8 @@ version := "1.6-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
+val kamonVersion = "0.3.4"
+
 libraryDependencies ++= Seq(
   jdbc,
   cache,
@@ -20,7 +22,12 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.5",
   "me.lessis" %% "courier" % "0.1.3",
   "org.webjars.bower" % "angular-websocket" % "1.0.14",
-  "com.typesafe.play" %% "anorm" % "2.4.0"
+  "com.typesafe.play" %% "anorm" % "2.4.0",
+  "io.kamon" %% "kamon-core" % kamonVersion,
+  "io.kamon" %% "kamon-statsd" % kamonVersion,
+  "io.kamon" %% "kamon-log-reporter" % kamonVersion,
+  "io.kamon" %% "kamon-system-metrics" % kamonVersion,
+  "org.aspectj" % "aspectjweaver" % "1.8.1"
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
@@ -38,11 +45,11 @@ dockerExposedPorts in Docker := Seq(9000)
 
 dockerRepository := Some("darioalessandro")
 
-aspectjSettings
+//aspectjSettings
 
-javaOptions <++= AspectjKeys.weaverOptions in Aspectj
+//javaOptions <++= AspectjKeys.weaverOptions in Aspectj
 
 // when you call "sbt run" aspectj weaving kicks in
-fork in run := true
+//fork in run := true
 
-
+//aspectj-play-runner:run
