@@ -38,5 +38,11 @@ dockerExposedPorts in Docker := Seq(9000)
 
 dockerRepository := Some("darioalessandro")
 
+aspectjSettings
+
+javaOptions <++= AspectjKeys.weaverOptions in Aspectj
+
+// when you call "sbt run" aspectj weaving kicks in
+fork in run := true
 
 

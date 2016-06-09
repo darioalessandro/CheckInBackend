@@ -22,7 +22,7 @@ class Monitor extends Actor {
   var clientMonitors : List[ActorRef] = List[ActorRef]()
 
   private def mergeDevices(oldDevices : Array[Beacon.Update], newDevices : Array[Beacon.Update]) = {
-    newDevices ++ oldDevices.filter(b => !newDevices.exists(d => b.uuid == d.uuid))
+    newDevices ++ oldDevices.filter(b => !newDevices.exists(d => b.identifier == d.identifier))
   }
 
   override def receive = {
@@ -34,9 +34,9 @@ class Monitor extends Actor {
       receivers = receivers +  (receiverId -> combinedDevices)
 
       combinedDevices foreach { device =>
-       val beacon  = beacons.getOrElse(device.uuid, {
-         val newBeacon = context.actorOf(Props(new Beacon(device.uuid, device.major,device.minor, Some(device.uuid))), name = device.uuid)
-         beacons = beacons + (device.uuid -> newBeacon)
+       val beacon  = beacons.getOrElse(device.identifier, {
+         val newBeacon = context.actorOf(Props(new Beacon(device.uuid, device.major,device.minor, Some(device.uuid))), name = device.identifier)
+         beacons = beacons + (device.identifier -> newBeacon)
          newBeacon
        })
 
